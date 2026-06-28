@@ -1,1 +1,1 @@
-# lean_prac
+# Lean Practice
