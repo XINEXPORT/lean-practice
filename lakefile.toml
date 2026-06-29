@@ -2,6 +2,11 @@ name = "lean_prac"
 version = "0.1.0"
 defaultTargets = ["lean_prac"]
 
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+version = "git#master"
+
 [[lean_lib]]
 name = "LeanPrac"
 
