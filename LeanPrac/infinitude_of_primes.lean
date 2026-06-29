@@ -4,6 +4,7 @@ prime library has the theorem inside it
 -/
 import Mathlib.Data.Nat.Prime.Infinite
 import Mathlib.Data.Nat.Factorial.Basic
+import Mathlib.Data.Nat.Prime.Factorial
 import Mathlib.Tactic
 
 /-
@@ -25,13 +26,17 @@ theorem infinitude_of_primes : ∀ N, ∃ p ≥ N, Nat.Prime p := by
   let M := N ! + 1
   let p := minFac M
 
-  have pp : Nat.Prime p := sorry
+  have pp : Nat.Prime p := by
+    refine Nat.minFac_prime ?_
+    have : factorial N > 0 := factorial_pos N
+    omega
 
   use p
   constructor
-  { by_contra h
-    have h1 : p ∣ factorial N + 1 := library_search
-    have h2 : p ∣ factorial N := refine pp.dvd_fact.mpr
-    have h3 : p ∣ 1 := by library_search
-    library_search }
-  { library_search }
+  · by_contra h
+    have h₁ : p ∣ factorial N + 1 := by exact minFac_dvd M
+    have h₂ : p ∣ factorial N := by
+      exact (Prime.dvd_factorial pp).mpr (by exact Nat.le_of_not_ge h)
+    have h₃ : p ∣ 1 := by exact (Nat.dvd_add_iff_right h₂).mpr h₁
+    exact pp.not_dvd_one h₃
+  · exact (irreducible_iff_nat_prime p).mp pp
