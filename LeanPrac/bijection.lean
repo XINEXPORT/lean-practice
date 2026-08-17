@@ -1,4 +1,4 @@
-import Mathlib
+import Mathlib.Tactic
 open Set Function
 
 example {A B : Type*} {f : A → B} (hf : Bijective f) (S : Set A) :
